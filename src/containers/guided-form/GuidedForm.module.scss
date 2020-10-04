@@ -1,0 +1,40 @@
+.container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.button {
+  -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.2rem;
+  margin-top: 2rem;
+  width: 100%;
+  background-color: mediumseagreen;
+  font-size: 1rem;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1.2rem;
+  cursor: pointer;
+  outline: none;
+  transition: 0.15s background-color linear, 0.15s transform ease-in-out;
+  &:disabled {
+    background-color: gainsboro;
+    cursor: not-allowed;
+    &:active {
+      transform: scale(1);
+    }
+  }
+  &:focus {
+    box-shadow: 0 0 0 2px royalblue;
+  }
+  &:active {
+    transform: scale(0.96);
+    box-shadow: none;
+  }
+}

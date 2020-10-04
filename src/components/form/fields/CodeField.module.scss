@@ -1,0 +1,26 @@
+.input {
+  margin: 0.2rem;
+  border: none;
+  padding: 0.5rem;
+  border-bottom: 3px solid gainsboro;
+  outline: none;
+  font-size: 1.5rem;
+  text-align: center;
+  width: 3rem;
+  transition: 0.15s border-color linear;
+  &.valid {
+    border-color: mediumseagreen;
+  }
+  &.error {
+    border-color: lightcoral;
+  }
+  &:focus {
+    border-color: royalblue;
+  }
+
+  &::-webkit-inner-spin-button {
+    display: none;
+  }
+  -moz-appearance: textfield;
+  box-shadow: none;
+}
