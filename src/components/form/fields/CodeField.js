@@ -26,8 +26,6 @@ function CodeField({ label, name, config, validation, error, control }) {
   const focusField = useCallback(
     (name) => {
       const ref = getRef(name);
-
-      console.log(ref);
       if (ref) {
         ref.focus();
       }
@@ -60,7 +58,6 @@ function CodeField({ label, name, config, validation, error, control }) {
         changeValue(name, normalizedValue);
         // Only change add rest to next field if cursor is at the end
         if (cursorPosition >= value.length) {
-          console.log(name);
           focusField(name);
           if (rest) {
             // We need to forwards the cursor position to allow the ovewrite in all the fieds
@@ -114,7 +111,7 @@ function CodeField({ label, name, config, validation, error, control }) {
           setCursor(getRef(inputs[id - 1]?.name), maxLength);
         }
       } else if (event.key === "ArrowRight" && inputs?.[id + 1]) {
-        if (document.activeElement.selectionStart === value.length) {
+        if (document.activeElement.selectionEnd === value.length) {
           event.preventDefault();
           focusField(inputs[id + 1]?.name);
           setCursor(getRef(inputs[id + 1]?.name), 0);

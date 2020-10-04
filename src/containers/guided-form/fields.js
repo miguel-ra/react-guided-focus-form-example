@@ -1,6 +1,6 @@
 import { CODE_FIELD } from "../../components/form/constants";
 
-export const NUMBER_OF_DIGITS = 6;
+export const NUMBER_OF_DIGITS = 3;
 
 const fields = [
   {
@@ -12,7 +12,7 @@ const fields = [
     },
     validation: {
       required: true,
-      maxLength: 1,
+      maxLength: 3,
       pattern: /\d/,
     },
   },
