@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CodeField from "./fields/CodeField";
-import { CODE_FIELD } from "./constants";
+import CardNumberField from "./fields/CardNumberField";
+import { CARD_NUMBER_FIELD } from "./constants";
 
 function Field({ type, ...config }) {
   switch (type) {
-    case CODE_FIELD:
-      return <CodeField {...config} />;
+    case CARD_NUMBER_FIELD:
+      return <CardNumberField {...config} />;
 
     default:
       return null;

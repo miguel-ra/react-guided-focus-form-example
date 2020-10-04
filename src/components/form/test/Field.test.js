@@ -2,7 +2,7 @@ import React from "react";
 import { screen, render } from "@testing-library/react";
 import Field from "../Field";
 import RenderWithFormMethods from "../../../internals/testing/components/RenderWithFormMethods";
-import { CODE_FIELD } from "../constants";
+import { CARD_NUMBER_FIELD } from "../constants";
 
 describe("<Field />", () => {
   test("Shouldn't render a wrong field type", () => {
@@ -13,13 +13,13 @@ describe("<Field />", () => {
     expect(container.firstChild).toBeNull();
   });
 
-  test("Should render CODE_FIELD type", () => {
+  test("Should render CARD_NUMBER_FIELD type", () => {
     const LABEL = "LABEL";
     const INPUT = "INPUT";
 
     render(
       <RenderWithFormMethods>
-        <Field type={CODE_FIELD} label={LABEL} name={INPUT} />
+        <Field type={CARD_NUMBER_FIELD} label={LABEL} name={INPUT} />
       </RenderWithFormMethods>
     );
 

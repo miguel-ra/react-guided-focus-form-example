@@ -1,1 +1,1 @@
-export const CODE_FIELD = "CODE_FIELD";
+export const CARD_NUMBER_FIELD = "CARD_NUMBER_FIELD";

@@ -2,12 +2,12 @@ import React, { useCallback, useMemo } from "react";
 import cx from "classnames";
 import { setCursor } from "../../../utils/document";
 import Label from "../Label";
-import classes from "./CodeField.module.scss";
+import classes from "./CardNumberField.module.scss";
 import { generateInputs, normalizeAndSlice } from "./helpers";
 
 const DEFAULT_MAX_LENGTH = 1;
 
-function CodeField({ label, name, config, validation, error, control }) {
+function CardNumberField({ label, name, config, validation, error, control }) {
   const { maxLength = DEFAULT_MAX_LENGTH } = validation || {};
   const { register, getValues, setValue } = control;
 
@@ -122,7 +122,7 @@ function CodeField({ label, name, config, validation, error, control }) {
   );
 
   const handleChange = useCallback(
-    ({ id }) => (event) => {
+    ({ id, name }) => (event) => {
       const { value } = event.target;
       formatInput(id, value);
     },
@@ -161,4 +161,4 @@ function CodeField({ label, name, config, validation, error, control }) {
   );
 }
 
-export default CodeField;
+export default CardNumberField;

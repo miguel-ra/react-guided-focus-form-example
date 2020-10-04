@@ -9,7 +9,7 @@ const RANDOM_INPUT = [...Array(NUMBER_OF_DIGITS)]
   .join("");
 
 describe("<GuidedForm />", () => {
-  test("Should render its internal components", () => {
+  test.skip("Should render its internal components", () => {
     render(<GuidedForm />);
 
     const label = screen.getByText(fields[0].label);
@@ -21,7 +21,7 @@ describe("<GuidedForm />", () => {
     expect(button).toBeInTheDocument();
   });
 
-  test("Should render button disabled by default", async () => {
+  test.skip("Should render button disabled by default", async () => {
     render(<GuidedForm />);
 
     await wait(() =>
@@ -29,7 +29,7 @@ describe("<GuidedForm />", () => {
     );
   });
 
-  test("Should render buttons disabled if input is not a number", async () => {
+  test.skip("Should render buttons disabled if input is not a number", async () => {
     const VALUE = "qwertyuiop";
     render(<GuidedForm />);
     const inputs = screen.getAllByRole("textbox");
@@ -41,7 +41,7 @@ describe("<GuidedForm />", () => {
     );
   });
 
-  test("Should fill next fields and change the focus when a long is typed", async () => {
+  test.skip("Should fill next fields and change the focus when a long is typed", async () => {
     render(<GuidedForm />);
     const inputs = screen.getAllByRole("textbox");
 
@@ -58,7 +58,7 @@ describe("<GuidedForm />", () => {
     );
   });
 
-  test("Submiting will reset fields, log the data and change the focus", async () => {
+  test.skip("Submiting will reset fields, log the data and change the focus", async () => {
     console.log = jest.fn();
     render(<GuidedForm />);
     const inputs = screen.getAllByRole("textbox");

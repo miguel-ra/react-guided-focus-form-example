@@ -53,7 +53,7 @@ function GuidedForm() {
           className={classes.button}
           disabled={!formState.isValid}
         >
-          Send
+          Pay
         </button>
       </form>
     </div>
