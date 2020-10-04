@@ -1,10 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Field from "../../components/form/Field";
-import classes from "./GuidedForm.module.scss";
+import classes from "./CheckoutForm.module.scss";
 import fields from "./fields";
 
-function GuidedForm() {
+function CheckoutForm() {
   const { handleSubmit, errors, formState, reset, control } = useForm({
     mode: "onChange",
   });
@@ -60,4 +60,4 @@ function GuidedForm() {
   );
 }
 
-export default GuidedForm;
+export default CheckoutForm;

@@ -1,8 +1,8 @@
 import React from "react";
-import GuidedForm from "./containers/guided-form/GuidedForm";
+import CheckoutForm from "./containers/checkout-form/CheckoutForm";
 
 function App() {
-  return <GuidedForm />;
+  return <CheckoutForm />;
 }
 
 export default App;

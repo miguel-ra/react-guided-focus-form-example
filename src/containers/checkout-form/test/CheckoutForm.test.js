@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render, screen, wait } from "@testing-library/react";
-import GuidedForm from "../GuidedForm";
+import CheckoutForm from "../CheckoutForm";
 import fields, { NUMBER_OF_DIGITS } from "../fields";
 import userEvent from "@testing-library/user-event";
 
@@ -8,9 +8,9 @@ const RANDOM_INPUT = [...Array(NUMBER_OF_DIGITS)]
   .map(() => Math.floor(Math.random() * 10))
   .join("");
 
-describe("<GuidedForm />", () => {
+describe("<CheckoutForm />", () => {
   test.skip("Should render its internal components", () => {
-    render(<GuidedForm />);
+    render(<CheckoutForm />);
 
     const label = screen.getByText(fields[0].label);
     const inputs = screen.getAllByRole("textbox");
@@ -22,7 +22,7 @@ describe("<GuidedForm />", () => {
   });
 
   test.skip("Should render button disabled by default", async () => {
-    render(<GuidedForm />);
+    render(<CheckoutForm />);
 
     await wait(() =>
       expect(screen.getByRole("button")).toHaveProperty("disabled", true)
@@ -31,7 +31,7 @@ describe("<GuidedForm />", () => {
 
   test.skip("Should render buttons disabled if input is not a number", async () => {
     const VALUE = "qwertyuiop";
-    render(<GuidedForm />);
+    render(<CheckoutForm />);
     const inputs = screen.getAllByRole("textbox");
 
     await userEvent.type(inputs[0], VALUE);
@@ -42,7 +42,7 @@ describe("<GuidedForm />", () => {
   });
 
   test.skip("Should fill next fields and change the focus when a long is typed", async () => {
-    render(<GuidedForm />);
+    render(<CheckoutForm />);
     const inputs = screen.getAllByRole("textbox");
 
     await userEvent.type(inputs[0], RANDOM_INPUT);
@@ -60,7 +60,7 @@ describe("<GuidedForm />", () => {
 
   test.skip("Submiting will reset fields, log the data and change the focus", async () => {
     console.log = jest.fn();
-    render(<GuidedForm />);
+    render(<CheckoutForm />);
     const inputs = screen.getAllByRole("textbox");
     const button = screen.getByRole("button");
 
