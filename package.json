@@ -1,7 +1,9 @@
 {
-  "name": "form",
+  "name": "react-guided-focus-form-example",
   "version": "0.1.0",
   "private": true,
+  "author": "Miguel RA",
+  "homepage": "https://miguel-ra.github.io/react-guided-focus-form-example/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",

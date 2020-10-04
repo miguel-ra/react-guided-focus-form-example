@@ -12,13 +12,9 @@ In the project directory, you can run:
 
 #### `yarn build`
 
-<br>
-
 ## Demo
 
-You can try it here (insert link).
-
-<br>
+You can try it [here](https://miguel-ra.github.io/react-guided-focus-form-example/).
 
 ## About
 
