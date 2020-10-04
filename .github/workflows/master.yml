@@ -27,11 +27,13 @@ jobs:
       - name: npm audit
         run: npm audit
 
-      # Runs npm install and tests
-      - name: npm install and test
-        run: |
-          npm install
-          npm test
+      # Runs npm install
+      - name: npm install
+        run: npm install
+
+      # Runs tests
+      - name: npm test
+        run: npm test
 
   # This workflow contains a single job called "build"
   build:
@@ -45,11 +47,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs npm install and generate build
-      - name: npm install and build
-        run: |
-          npm install
-          npm run build
+      # Runs npm install
+      - name: npm install
+        run: npm install
+
+      # Generate build
+      - name: generate build
+        run: npm run build
 
       # Deploy to github pages
       - name: deploy-to-github-pages

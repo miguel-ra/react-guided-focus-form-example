@@ -59,7 +59,13 @@ function CodeField({ label, name, config, validation, error, control }) {
 
   const handleKeyDown = (id, name) => (event) => {
     if (event.key === "Backspace" && inputs?.[id - 1]) {
-      setTimeout(() => !getValues(name) && focusField(id - 1));
+      const value = getValues(name);
+      setTimeout(() => {
+        const updatedValue = getValues(name);
+        if (updatedValue === value || !updatedValue) {
+          focusField(id - 1);
+        }
+      });
     } else if (event.key === "Delete") {
       deleteValue(id);
       setTimeout(() => resetCursor());
