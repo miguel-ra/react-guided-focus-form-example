@@ -1,3 +1,6 @@
-export const resetCursor = () => {
-  document.activeElement.setSelectionRange(0, 0);
+export const setCursor = (position = 0) => {
+  const { activeElement } = document;
+  if (activeElement.setSelectionRange) {
+    activeElement.setSelectionRange(position, position);
+  }
 };

@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import cx from "classnames";
-import { resetCursor } from "../../../utils/document";
+import { setCursor } from "../../../utils/document";
 import Label from "../Label";
 import classes from "./CodeField.module.scss";
 import { generateInputs, normalizeAndSlice } from "./helpers";
@@ -8,10 +8,10 @@ import { generateInputs, normalizeAndSlice } from "./helpers";
 const DEFAULT_MAX_LENGTH = 1;
 
 function CodeField({ label, name, config, validation, error, control }) {
-  const { maxLength = DEFAULT_MAX_LENGTH } = validation;
+  const { maxLength = DEFAULT_MAX_LENGTH } = validation || {};
   const { register, getValues, setValue } = control;
 
-  const inputs = useMemo(() => generateInputs(name, config.size), [
+  const inputs = useMemo(() => generateInputs(name, config?.size), [
     config,
     name,
   ]);
@@ -19,12 +19,16 @@ function CodeField({ label, name, config, validation, error, control }) {
   const focusField = useCallback(
     (id) => {
       const name = inputs[id]?.name;
+      const value = getValues(name);
       const ref = control.fieldsRef.current[name]?.ref;
       if (ref) {
         ref.focus();
+        if (value) {
+          setTimeout(() => setCursor(value.length));
+        }
       }
     },
-    [inputs, control]
+    [inputs, control, getValues]
   );
 
   const formatValue = useCallback(
@@ -58,8 +62,8 @@ function CodeField({ label, name, config, validation, error, control }) {
   );
 
   const handleKeyDown = (id, name) => (event) => {
+    const value = getValues(name);
     if (event.key === "Backspace" && inputs?.[id - 1]) {
-      const value = getValues(name);
       setTimeout(() => {
         const updatedValue = getValues(name);
         if (updatedValue === value || !updatedValue) {
@@ -68,7 +72,14 @@ function CodeField({ label, name, config, validation, error, control }) {
       });
     } else if (event.key === "Delete") {
       deleteValue(id);
-      setTimeout(() => resetCursor());
+    } else if (event.key === "ArrowLeft") {
+      focusField(id - 1);
+    } else if (event.key === "ArrowRight") {
+      focusField(id + 1);
+    }
+
+    if (value) {
+      setTimeout(() => setCursor(value.length));
     }
   };
 

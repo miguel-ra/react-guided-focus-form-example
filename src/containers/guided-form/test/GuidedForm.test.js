@@ -2,14 +2,16 @@ import React from "react";
 import { fireEvent, render, screen, wait } from "@testing-library/react";
 import GuidedForm from "../GuidedForm";
 import fields, { NUMBER_OF_DIGITS } from "../fields";
+import userEvent from "@testing-library/user-event";
 
 const RANDOM_INPUT = [...Array(NUMBER_OF_DIGITS)]
   .map(() => Math.floor(Math.random() * 10))
   .join("");
 
 describe("<GuidedForm />", () => {
-  test("Renders its internal components", () => {
+  test("Should render its internal components", () => {
     render(<GuidedForm />);
+
     const label = screen.getByText(fields[0].label);
     const inputs = screen.getAllByRole("textbox");
     const button = screen.getByRole("button");
@@ -19,7 +21,7 @@ describe("<GuidedForm />", () => {
     expect(button).toBeInTheDocument();
   });
 
-  test("Buttons is disabled by default", async () => {
+  test("Should render button disabled by default", async () => {
     render(<GuidedForm />);
 
     await wait(() =>
@@ -27,23 +29,23 @@ describe("<GuidedForm />", () => {
     );
   });
 
-  test("If input is not a number button will be disabled", async () => {
+  test("Should render buttons disabled if input is not a number", async () => {
     const VALUE = "qwertyuiop";
     render(<GuidedForm />);
     const inputs = screen.getAllByRole("textbox");
 
-    await fireEvent.change(inputs[0], { target: { value: VALUE } });
+    await userEvent.type(inputs[0], VALUE);
 
     await wait(() =>
       expect(screen.getByRole("button")).toHaveProperty("disabled", true)
     );
   });
 
-  test("Long input will fill next fields and change the focus", async () => {
+  test("Should fill next fields and change the focus when a long is typed", async () => {
     render(<GuidedForm />);
     const inputs = screen.getAllByRole("textbox");
 
-    await fireEvent.change(inputs[0], { target: { value: RANDOM_INPUT } });
+    await userEvent.type(inputs[0], RANDOM_INPUT);
 
     expect(document.activeElement).toEqual(inputs[inputs.length - 1]);
 
@@ -62,8 +64,8 @@ describe("<GuidedForm />", () => {
     const inputs = screen.getAllByRole("textbox");
     const button = screen.getByRole("button");
 
-    await fireEvent.change(inputs[0], { target: { value: RANDOM_INPUT } });
-    await fireEvent.click(button);
+    await userEvent.type(inputs[0], RANDOM_INPUT);
+    fireEvent.click(button);
     await wait(() => expect(inputs[0].value).toBe(""));
 
     for (let index = 1; index < inputs.length; index += 1) {
