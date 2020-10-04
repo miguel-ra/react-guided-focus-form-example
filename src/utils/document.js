@@ -1,6 +1,5 @@
-export const setCursor = (position = 0) => {
-  const { activeElement } = document;
-  if (activeElement.setSelectionRange) {
-    activeElement.setSelectionRange(position, position);
+export const setCursor = (element, position = 0) => {
+  if (element) {
+    element.setSelectionRange(position, position);
   }
 };

@@ -6,6 +6,12 @@
   flex-direction: column;
 }
 
+.form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .button {
   -webkit-tap-highlight-color: transparent;
   font-family: inherit;
@@ -13,7 +19,6 @@
   font-weight: bold;
   letter-spacing: 0.2rem;
   margin-top: 2rem;
-  width: 100%;
   background-color: mediumseagreen;
   font-size: 1rem;
   color: white;
@@ -23,6 +28,8 @@
   cursor: pointer;
   outline: none;
   transition: 0.15s background-color linear, 0.15s transform ease-in-out;
+  display: block;
+  width: 100%;
   &:disabled {
     background-color: gainsboro;
     cursor: not-allowed;

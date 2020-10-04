@@ -16,80 +16,128 @@ function CodeField({ label, name, config, validation, error, control }) {
     name,
   ]);
 
+  const getRef = useCallback(
+    (name) => {
+      return control.fieldsRef.current[name]?.ref;
+    },
+    [control]
+  );
+
   const focusField = useCallback(
-    (id) => {
-      const name = inputs[id]?.name;
-      const value = getValues(name);
-      const ref = control.fieldsRef.current[name]?.ref;
+    (name) => {
+      const ref = getRef(name);
+
+      console.log(ref);
       if (ref) {
         ref.focus();
-        if (value) {
-          setTimeout(() => setCursor(value.length));
-        }
       }
     },
-    [inputs, control, getValues]
+    [getRef]
   );
 
-  const formatValue = useCallback(
-    (id, value) => {
-      const name = inputs[id]?.name;
-      const [normalizedValue, rest] = normalizeAndSlice(value, maxLength) || [
-        value,
-      ];
-      if (name && normalizedValue) {
-        setValue(name, normalizedValue, {
+  const changeValue = useCallback(
+    (name, value) => {
+      const ref = getRef(name);
+      if (ref) {
+        const selectionStart = ref.selectionStart;
+
+        setValue(name, value, {
           shouldValidate: true,
         });
-        focusField(id);
-        if (rest) {
-          formatValue(id + 1, rest);
+
+        setCursor(document.activeElement, selectionStart);
+      }
+    },
+    [getRef, setValue]
+  );
+
+  const formatInput = useCallback(
+    (id, value, cursorPosition = document.activeElement.selectionStart) => {
+      const name = inputs[id]?.name;
+      const [normalizedValue, rest] = normalizeAndSlice(value, maxLength);
+
+      if (name && normalizedValue) {
+        changeValue(name, normalizedValue);
+        // Only change add rest to next field if cursor is at the end
+        if (cursorPosition >= value.length) {
+          console.log(name);
+          focusField(name);
+          if (rest) {
+            // We need to forwards the cursor position to allow the ovewrite in all the fieds
+            formatInput(id + 1, rest, cursorPosition);
+          }
         }
       }
     },
-    [inputs, maxLength, setValue, focusField]
+    [inputs, maxLength, changeValue, focusField]
   );
 
-  const deleteValue = useCallback(
-    (id) => {
+  const removeChar = useCallback(
+    (id, removeFirstChar = false) => {
       const name = inputs[id]?.name;
-      setValue(name, "", {
-        shouldValidate: true,
-      });
-      focusField(id + 1);
+      const value = getValues(name);
+      const newValue = value.substr(
+        ...(removeFirstChar ? [1] : [0, value.length - 1])
+      );
+
+      changeValue(name, newValue);
+      focusField(name);
+
+      if (removeFirstChar) {
+        setCursor(getRef(name), 0);
+      }
     },
-    [focusField, inputs, setValue]
+    [changeValue, focusField, getRef, getValues, inputs]
   );
 
-  const handleKeyDown = (id, name) => (event) => {
-    const value = getValues(name);
-    if (event.key === "Backspace" && inputs?.[id - 1]) {
-      setTimeout(() => {
-        const updatedValue = getValues(name);
-        if (updatedValue === value || !updatedValue) {
-          focusField(id - 1);
+  const handleKeyDown = useCallback(
+    ({ id, name }) => (event) => {
+      const value = getValues(name);
+      if (event.key === "Backspace" && inputs?.[id - 1]) {
+        setTimeout(() => {
+          const updatedValue = getValues(name);
+          if (updatedValue === value) {
+            removeChar(id - 1);
+          }
+        });
+      } else if (event.key === "Delete" && inputs?.[id + 1]) {
+        setTimeout(() => {
+          const updatedValue = getValues(name);
+          if (updatedValue === value) {
+            removeChar(id + 1, true);
+          }
+        });
+      } else if (event.key === "ArrowLeft" && inputs?.[id - 1]) {
+        if (document.activeElement.selectionStart === 0) {
+          event.preventDefault();
+          focusField(inputs[id - 1]?.name);
+          setCursor(getRef(inputs[id - 1]?.name), maxLength);
         }
-      });
-    } else if (event.key === "Delete") {
-      deleteValue(id);
-    } else if (event.key === "ArrowLeft") {
-      focusField(id - 1);
-    } else if (event.key === "ArrowRight") {
-      focusField(id + 1);
-    }
+      } else if (event.key === "ArrowRight" && inputs?.[id + 1]) {
+        if (document.activeElement.selectionStart === value.length) {
+          event.preventDefault();
+          focusField(inputs[id + 1]?.name);
+          setCursor(getRef(inputs[id + 1]?.name), 0);
+        }
+      }
+    },
+    [focusField, getRef, getValues, inputs, maxLength, removeChar]
+  );
 
-    if (value) {
-      setTimeout(() => setCursor(value.length));
-    }
-  };
+  const handleChange = useCallback(
+    ({ id }) => (event) => {
+      const { value } = event.target;
+      formatInput(id, value);
+    },
+    [formatInput]
+  );
 
-  const handleChange = (id) => (event) => {
-    const { value } = event.target;
-    if (!error?.[id] || error?.[id]?.type === "pattern") {
-      focusField(id + 1);
-    }
-    formatValue(id, value);
-  };
+  const handlePaste = useCallback(
+    ({ name }) => () => {
+      setValue(name, "");
+    },
+    [setValue]
+  );
 
   return (
     <>
@@ -106,8 +154,9 @@ function CodeField({ label, name, config, validation, error, control }) {
               [classes.valid]: getValues(name) && !error?.[id],
               [classes.error]: error?.[id],
             })}
-            onKeyDown={handleKeyDown(id, name)}
-            onChange={handleChange(id, name)}
+            onKeyDown={handleKeyDown({ id, name })}
+            onChange={handleChange({ id, name })}
+            onPaste={handlePaste({ id, name })}
           />
         ))}
       </div>

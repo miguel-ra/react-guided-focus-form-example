@@ -20,7 +20,7 @@ function GuidedForm() {
 
   return (
     <div className={classes.container}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
         {fields.map((config) => (
           <Field
             key={config.name}
@@ -29,6 +29,25 @@ function GuidedForm() {
             {...config}
           />
         ))}
+        <br />
+        <small>
+          Try to copy and paste over the fields{" "}
+          <span role="img" aria-label="magic">
+            ✨
+          </span>
+        </small>
+        <small>
+          You can use arrows to move between fields{" "}
+          <span role="img" aria-label="magic">
+            💎
+          </span>
+        </small>
+        <small>
+          Also use `backspace` and `delete` keys{" "}
+          <span role="img" aria-label="genius">
+            🔮
+          </span>
+        </small>
         <button
           type="submit"
           className={classes.button}
