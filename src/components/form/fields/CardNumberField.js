@@ -122,7 +122,7 @@ function CardNumberField({ label, name, config, validation, error, control }) {
   );
 
   const handleChange = useCallback(
-    ({ id, name }) => (event) => {
+    ({ id }) => (event) => {
       const { value } = event.target;
       formatInput(id, value);
     },

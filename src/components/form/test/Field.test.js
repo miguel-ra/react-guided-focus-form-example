@@ -5,7 +5,7 @@ import RenderWithFormMethods from "../../../internals/testing/components/RenderW
 import { CARD_NUMBER_FIELD } from "../constants";
 
 describe("<Field />", () => {
-  test("Shouldn't render a wrong field type", () => {
+  it("Shouldn't render a wrong field type", () => {
     const WRONG_TYPE = "WRONG_TYPE";
 
     const { container } = render(<Field type={WRONG_TYPE} />);
@@ -13,7 +13,7 @@ describe("<Field />", () => {
     expect(container.firstChild).toBeNull();
   });
 
-  test("Should render CARD_NUMBER_FIELD type", () => {
+  it("Should render CARD_NUMBER_FIELD type", () => {
     const LABEL = "LABEL";
     const INPUT = "INPUT";
 

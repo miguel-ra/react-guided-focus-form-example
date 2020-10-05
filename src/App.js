@@ -1,8 +1,8 @@
 import React from "react";
-import CheckoutForm from "./containers/checkout-form/CheckoutForm";
+import Checkout from "./containers/checkout-form/Checkout";
 
 function App() {
-  return <CheckoutForm />;
+  return <Checkout />;
 }
 
 export default App;

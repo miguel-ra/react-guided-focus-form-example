@@ -3,7 +3,7 @@ import { screen, render } from "@testing-library/react";
 import Label from "../Label";
 
 describe("<Label />", () => {
-  test("Should render label propertly", () => {
+  it("Should render label propertly", () => {
     const LABEL = "LABEL";
     const INPUT = "INPUT";
     const { container } = render(<Label htmlFor={INPUT}>{LABEL}</Label>);

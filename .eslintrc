@@ -1,0 +1,10 @@
+{
+  "extends": "react-app",
+  "rules": {
+    "no-restricted-globals": "off"
+  },
+  "globals": {
+    "cy": true,
+    "Cypress": true
+  }
+}

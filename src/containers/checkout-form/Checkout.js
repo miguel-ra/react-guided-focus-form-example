@@ -1,17 +1,17 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Field from "../../components/form/Field";
-import classes from "./CheckoutForm.module.scss";
+import classes from "./Checkout.module.scss";
 import fields from "./fields";
 
-function CheckoutForm() {
+function Checkout() {
   const { handleSubmit, errors, formState, reset, control } = useForm({
     mode: "onChange",
   });
 
   const onSubmit = (data) => {
-    console.log("Digit:", data.digit?.join(""));
-    const ref = control.fieldsRef.current["digit[0]"]?.ref;
+    console.log("CardNumber:", data.cardnumber?.join(""));
+    const ref = control.fieldsRef.current["cardnumber[0]"]?.ref;
     if (ref) {
       ref.focus();
     }
@@ -60,4 +60,4 @@ function CheckoutForm() {
   );
 }
 
-export default CheckoutForm;
+export default Checkout;

@@ -1,16 +1,17 @@
 import React from "react";
 import { fireEvent, render, screen, wait } from "@testing-library/react";
-import CheckoutForm from "../CheckoutForm";
+import Checkout from "../Checkout";
 import fields, { NUMBER_OF_DIGITS } from "../fields";
-import userEvent from "@testing-library/user-event";
 
-const RANDOM_INPUT = [...Array(NUMBER_OF_DIGITS)]
+const RANDOM_CARD = [
+  ...Array(NUMBER_OF_DIGITS * fields[0].validation.minLength),
+]
   .map(() => Math.floor(Math.random() * 10))
   .join("");
 
-describe("<CheckoutForm />", () => {
-  test.skip("Should render its internal components", () => {
-    render(<CheckoutForm />);
+describe("<Checkout />", () => {
+  it("Should render its internal components", () => {
+    render(<Checkout />);
 
     const label = screen.getByText(fields[0].label);
     const inputs = screen.getAllByRole("textbox");
@@ -21,36 +22,47 @@ describe("<CheckoutForm />", () => {
     expect(button).toBeInTheDocument();
   });
 
-  test.skip("Should render button disabled by default", async () => {
-    render(<CheckoutForm />);
+  it("Should render button disabled by default", async () => {
+    render(<Checkout />);
 
     await wait(() =>
       expect(screen.getByRole("button")).toHaveProperty("disabled", true)
     );
   });
 
-  test.skip("Should render buttons disabled if input is not a number", async () => {
-    const VALUE = "qwertyuiop";
-    render(<CheckoutForm />);
+  it("Should render buttons disabled if input is not a number", async () => {
+    const VALUE = "asdfasdfasdfasdf";
+    render(<Checkout />);
     const inputs = screen.getAllByRole("textbox");
 
-    await userEvent.type(inputs[0], VALUE);
+    inputs[0].focus();
+    fireEvent.change(inputs[0], {
+      target: { value: VALUE },
+    });
 
     await wait(() =>
       expect(screen.getByRole("button")).toHaveProperty("disabled", true)
     );
   });
 
-  test.skip("Should fill next fields and change the focus when a long is typed", async () => {
-    render(<CheckoutForm />);
+  it("Should fill next fields and change the focus when a long is typed", async () => {
+    render(<Checkout />);
     const inputs = screen.getAllByRole("textbox");
 
-    await userEvent.type(inputs[0], RANDOM_INPUT);
+    inputs[0].focus();
+    fireEvent.change(inputs[0], {
+      target: { value: RANDOM_CARD },
+    });
 
     expect(document.activeElement).toEqual(inputs[inputs.length - 1]);
 
     inputs.forEach((input, index) => {
-      expect(input.value).toBe(RANDOM_INPUT[index]);
+      expect(input.value).toBe(
+        RANDOM_CARD.slice(
+          index * fields[0].validation.minLength,
+          (index + 1) * fields[0].validation.minLength
+        )
+      );
     });
 
     await wait(() =>
@@ -58,19 +70,23 @@ describe("<CheckoutForm />", () => {
     );
   });
 
-  test.skip("Submiting will reset fields, log the data and change the focus", async () => {
+  it("Submiting will reset fields, log the data and change the focus", async () => {
     console.log = jest.fn();
-    render(<CheckoutForm />);
+    render(<Checkout />);
     const inputs = screen.getAllByRole("textbox");
     const button = screen.getByRole("button");
 
-    await userEvent.type(inputs[0], RANDOM_INPUT);
+    inputs[0].focus();
+    fireEvent.change(inputs[0], {
+      target: { value: RANDOM_CARD },
+    });
+
     fireEvent.click(button);
     await wait(() => expect(inputs[0].value).toBe(""));
 
     for (let index = 1; index < inputs.length; index += 1) {
       expect(inputs[index].value).toBe("");
     }
-    expect(console.log).toHaveBeenCalledWith("Digit:", RANDOM_INPUT);
+    expect(console.log).toHaveBeenCalledWith("CardNumber:", RANDOM_CARD);
   });
 });
