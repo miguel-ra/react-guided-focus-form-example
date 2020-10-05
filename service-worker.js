@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/react-guided-focus-form-example/precache-manifest.0f80a32635f4c0672b7d9fe3d98d33e5.js"
+  "/react-guided-focus-form-example/precache-manifest.8d37401f33b0a6588422c64f91495e08.js"
 );
 
 self.addEventListener('message', (event) => {
